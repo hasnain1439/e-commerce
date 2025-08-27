@@ -27,7 +27,7 @@ function Home() {
   }
 
   // Using custom hook
-  const { apiData, apiErr, apiLoading } = UseFetch({
+  const { apiData, apiErr, apiLoading, fetchingData } = UseFetch({
     url: "https://fakestoreapi.com/products",
     method: "GET",
     autofetch: true,
@@ -92,6 +92,7 @@ function Home() {
       <div className="p-[5%] bg-gray-400">
         <div className="text-center">
           <h1 className="text-5xl font-semibold">Feature Products</h1>
+          <button onClick={fetchingData}>Fetch Products</button>
         </div>
         <div className="grid grid-cols-3 gap-5 pt-[48px]">
           {apiLoading && <p>Loading...</p>}

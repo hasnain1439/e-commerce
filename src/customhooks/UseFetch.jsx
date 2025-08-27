@@ -38,5 +38,5 @@ export function UseFetch({
     if (autofetch) fetchingData();
   }, [autofetch, fetchingData]);
 
-  return { apiData, apiErr, apiLoading, autofetch };
+  return { apiData, apiErr, apiLoading,fetchingData };
 }
