@@ -179,7 +179,13 @@ function Login() {
               {/* ----------- remember -----------  */}
               <div className="flex items-center justify-between">
                 <label className="flex items-center gap-3">
-                  <Field type="checkbox" name="agree" />I agree to the terms
+                  <Field
+                    type="checkbox"
+                    name="agree"
+                    // checked={values.agree}
+                    // onChange={handleChange}
+                  />
+                  I agree to the terms
                 </label>
                 <div className="text-end">
                   <Link

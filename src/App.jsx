@@ -1,10 +1,11 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.css'
-import Home from './pages/Home'
+import Home from './pages/home/Home'
 import About from './pages/About'
 import Contact from './pages/Contact'
 import Login from './pages/Login'
 import Dynamic from './pages/dynamic'
+import HookHandler from './pages/HookHandler'
 
 function App() {
   const router = createBrowserRouter([
@@ -27,6 +28,10 @@ function App() {
     {
       path: "/dynamic/:username",
       element: <Dynamic/>
+    },
+    {
+      path: "/hook-handler",
+      element: <HookHandler/>
     },
   ])
 
