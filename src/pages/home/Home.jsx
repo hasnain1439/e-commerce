@@ -11,6 +11,13 @@ import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 function Home() {
   const navigate = useNavigate();
 
+    // Using custom hook
+  const { apiData, apiErr, apiLoading, fetchingData } = UseFetch({
+    url: "https://fakestoreapi.com/products",
+    method: "GET",
+    autofetch: true,
+  });
+
   // Star Rating Component
   function StarRating({ rating }) {
     const stars = [];
@@ -25,13 +32,6 @@ function Home() {
     }
     return <div className="flex gap-1">{stars}</div>;
   }
-
-  // Using custom hook
-  const { apiData, apiErr, apiLoading, fetchingData } = UseFetch({
-    url: "https://fakestoreapi.com/products",
-    method: "GET",
-    autofetch: true,
-  });
 
   return (
     <div className="relative">

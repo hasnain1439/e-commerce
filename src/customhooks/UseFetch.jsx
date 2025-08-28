@@ -15,16 +15,20 @@ export function UseFetch({
 
 
 
-  const fetchingData = useCallback(async () => {
+  const fetchingData = useCallback(async (customBody = null, body= null) => {
     setApiLoading(true);
     try {
       const res = await axios({
         url,
         method,  
         headers, 
-        data: body,
+       data: customBody || body,
       });
-      setApiData(res.data);
+      setApiData((prev) =>
+        method.toLowerCase() === "post"?
+        [...prev, res.data]:
+        res.data);
+      console.log("this is api data", res.data)
       enqueueSnackbar("✅ Request successful", { variant: "success" });
     } catch (err) {
       setApiErr(err);
@@ -32,11 +36,11 @@ export function UseFetch({
     } finally {
       setApiLoading(false);
     }
-  }, []);
+  }, [url]);
 
   useEffect(() => {
     if (autofetch) fetchingData();
   }, [autofetch, fetchingData]);
 
-  return { apiData, apiErr, apiLoading,fetchingData };
+  return { apiData, apiErr, apiLoading, fetchingData };
 }
