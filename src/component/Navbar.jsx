@@ -1,5 +1,7 @@
 import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { AiFillBell } from "react-icons/ai";
+import { FaCartShopping } from "react-icons/fa6";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -44,8 +46,23 @@ function Navbar() {
           </NavLink>
         </li>
       </ul>
-      <div>
-        <button onClick={()=> navigate("/login")} className="px-7 py-2 bg-blue-500  rounded-md text-white">Login</button>
+      <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
+          <Link to={"/blank"} className="relative">
+            <div className="absolute top-0 start-0.5 rounded-full p-1 bg-red-600"></div>
+            <AiFillBell className="text-3xl" />
+          </Link>
+          <Link to={"/blank"} className="relative">
+            <div className="absolute top-0  start-0 rounded-full p-1 bg-red-600"></div>
+            <FaCartShopping  className="text-3xl"/>
+          </Link>
+        </div>
+        <button
+          onClick={() => navigate("/login")}
+          className="px-7 py-2 bg-blue-500  rounded-md text-white"
+        >
+          Login
+        </button>
       </div>
     </div>
   );
