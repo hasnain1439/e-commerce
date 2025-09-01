@@ -5,14 +5,14 @@ import React, { useCallback, useEffect, useState } from "react";
 export function UseFetch({
   url,
   method,
-  body = null,
+  // body = null,
   headers = {},
   autofetch,
 }){
   const [apiData, setApiData] = useState([]);
   const [apiErr, setApiErr] = useState(null);
   const [apiLoading, setApiLoading] = useState(false);
-
+  
 
 
   const fetchingData = useCallback(async (customBody = null, body= null) => {
@@ -26,7 +26,7 @@ export function UseFetch({
       });
       setApiData((prev) =>
         method.toLowerCase() === "post"?
-        [...prev, res.data]:
+        [...prev, res.data]:  
         res.data);
       console.log("this is api data", res.data)
       enqueueSnackbar("✅ Request successful", { variant: "success" });

@@ -7,6 +7,7 @@ import categorySec from "../../assets/project-Img/category-2.jpg";
 import categoryThi from "../../assets/project-Img/category-3.jpg";
 import { UseFetch } from "../../customhooks/UseFetch";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
+import Confirmation from "../../component/Confirmation";
 
 function Home() {
   const navigate = useNavigate();
