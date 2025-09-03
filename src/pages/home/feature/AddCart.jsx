@@ -1,13 +1,17 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useState } from "react";
+import Navbar from "../../../component/Navbar";
+
 import { FaPlus, FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import { GrFormSubtract } from "react-icons/gr";
 import { IoArrowBackOutline } from "react-icons/io5";
+
 import { useSelector, useDispatch } from "react-redux";
+
 import { addItem, countValue } from "../../../redux/store";
-import Navbar from "../../../component/Navbar";
+
 import { enqueueSnackbar } from "notistack";
 
-// ---------------- UseReducer ----------------
+// UseReducer for plus and minis 
 const reducer = (state, action) => {
   switch (action.type) {
     case "next":
@@ -22,10 +26,12 @@ const reducer = (state, action) => {
 };
 
 function AddCart({ cartItem, setShowHide }) {
+  // reducer
   const [state, localDispatch] = useReducer(reducer, { count: 1 });
   const cartItems = useSelector((state) => state.tasks);
+  const CountValue = useSelector((state) => state.count);
   const dispatchFun = useDispatch();
-
+  const [productQantity, setproductQantity]= useState(1) 
   // Star Rating Component
   function StarRating({ rating }) {
     const stars = [];
@@ -40,13 +46,14 @@ function AddCart({ cartItem, setShowHide }) {
     }
     return <div className="flex gap-1">{stars}</div>;
   }
-
+  console.log(productQantity)
+  // Add to cart Function
   const addToCartFunction = (data) => {
     const exists = cartItems.some((item) => item.id === data.id);
 
     if (!exists) {
       dispatchFun(addItem(data));
-      dispatchFun(countValue(cartItem.id,state.count)); // ✅ save quantity in redux
+      dispatchFun(countValue(productQantity)); 
       enqueueSnackbar("✅ This item successfully add in the cart!", {
         variant: "success",
       });
@@ -93,7 +100,7 @@ function AddCart({ cartItem, setShowHide }) {
                 onClick={() => {
                   const newValue = Math.max(state.count - 1, 0);
                   localDispatch({ type: "back" });
-                  dispatchFun(countValue(cartItem.id,newValue)); 
+                  setproductQantity(newValue); 
                 }}
               />
 
@@ -104,7 +111,7 @@ function AddCart({ cartItem, setShowHide }) {
                 onChange={(e) => {
                   const newValue = Number(e.target.value);
                   localDispatch({ type: "set", payload: newValue });
-                  dispatchFun(countValue(cartItem.id,newValue)); // ✅ sync Redux
+                  
                 }}
                 id="productQuantity"
                 className="w-20 text-center p-2 outline-none border-none"
@@ -116,8 +123,7 @@ function AddCart({ cartItem, setShowHide }) {
                 onClick={() => {
                   const newValue = state.count + 1;
                   localDispatch({ type: "next" });
-                  dispatchFun(countValue(cartItem.id,newValue));
-                  console.log("New value after plus:", newValue);
+                  setproductQantity(newValue);
                 }}
               />
             </div>
@@ -132,6 +138,8 @@ function AddCart({ cartItem, setShowHide }) {
                 ({cartItem.rating.count})
               </span>
             </div>
+            
+            {/* Add Cart Button */}
             <div className="mt-[5%]">
               <button
                 type="button"

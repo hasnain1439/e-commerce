@@ -1,24 +1,35 @@
 import React, { useState } from "react";
-import Navbar from "../../component/Navbar";
-import HomeImg from "../../assets/image1.png";
-import { useNavigate } from "react-router-dom";
+
 import categoryFir from "../../assets/project-Img/category-1.jpg";
 import categorySec from "../../assets/project-Img/category-2.jpg";
 import categoryThi from "../../assets/project-Img/category-3.jpg";
-import { UseFetch } from "../../customhooks/UseFetch";
+import HomeImg from "../../assets/image1.png";
+
+import Navbar from "../../component/Navbar";
+
+import { useNavigate } from "react-router-dom";
+
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
-import Confirmation from "../../component/Confirmation";
-import AddCart from "./feature/AddCart";
+
+import { UseFetch } from "../../customhooks/UseFetch";
+
 import { addItem, countValue, price } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
+
+import AddCart from "./feature/AddCart";
 import { enqueueSnackbar } from "notistack";
+
+
 
 function Home() {
   const navigate = useNavigate();
+  
   const [showHide, setShowHide] = useState(true);
   const [cartItem, setCartItems] = useState([]);
+  
   const dispatch = useDispatch();
   const store = useSelector((state) => state.tasks);
+  
   // Using custom hook
   const { apiData, apiErr, apiLoading, fetchingData } = UseFetch({
     url: "https://fakestoreapi.com/products",
@@ -41,15 +52,19 @@ function Home() {
     return <div className="flex gap-1">{stars}</div>;
   }
 
+  // View Detail
   const viewDetailFunction = (item) => {
     setCartItems(item);
     setShowHide(false);
   };
+
+  // Direct add Cart
   const addToCartFunction = (itemAdd) => {
     const exists = store.some((item) => item.id === itemAdd.id);
 
     if (!exists) {
       dispatch(addItem(itemAdd));
+      dispatch(countValue(1))
       dispatch(price(itemAdd.price));
       enqueueSnackbar("✅ This item successfully add in the cart!", {
         variant: "success",
