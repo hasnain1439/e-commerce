@@ -7,7 +7,7 @@ function Navbar() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex justify-between items-center bg-gray-300 px-[5%] py-5 shadow-xl sticky top-0 right-0">
+    <div className="flex justify-between items-center bg-gray-300 px-[5%] py-5 shadow-xl sticky top-0 right-0 z-[1]">
       <ul className="flex gap-3">
         <li>
           <NavLink
@@ -52,7 +52,7 @@ function Navbar() {
             <div className="absolute top-0 start-0.5 rounded-full p-1 bg-red-600"></div>
             <AiFillBell className="text-3xl" />
           </Link>
-          <Link to={"/blank"} className="relative">
+          <Link to={"/cart"} className="relative">
             <div className="absolute top-0  start-0 rounded-full p-1 bg-red-600"></div>
             <FaCartShopping  className="text-3xl"/>
           </Link>

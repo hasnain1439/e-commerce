@@ -9,12 +9,16 @@ import { UseFetch } from "../../customhooks/UseFetch";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import Confirmation from "../../component/Confirmation";
 import AddCart from "./feature/AddCart";
+import { addItem, countValue, price } from "../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { enqueueSnackbar } from "notistack";
 
 function Home() {
   const navigate = useNavigate();
   const [showHide, setShowHide] = useState(true);
-  const [cartItem, setCartItems] = useState([])
-
+  const [cartItem, setCartItems] = useState([]);
+  const dispatch = useDispatch();
+  const store = useSelector((state) => state.tasks);
   // Using custom hook
   const { apiData, apiErr, apiLoading, fetchingData } = UseFetch({
     url: "https://fakestoreapi.com/products",
@@ -37,10 +41,29 @@ function Home() {
     return <div className="flex gap-1">{stars}</div>;
   }
 
-  const viewDetailFunction = (item)=>{
+  const viewDetailFunction = (item) => {
     setCartItems(item);
-    setShowHide(false)
-  }
+    setShowHide(false);
+  };
+  const addToCartFunction = (itemAdd) => {
+    const exists = store.some((item) => item.id === itemAdd.id);
+
+    if (!exists) {
+      dispatch(addItem(itemAdd));
+      dispatch(price(itemAdd.price));
+      enqueueSnackbar("✅ This item successfully add in the cart!", {
+        variant: "success",
+      });
+      console.log("Redux store after dispatch:", store);
+    } else {
+      enqueueSnackbar("❌ This item is already in the cart!", {
+        variant: "error",
+      });
+    }
+
+    // dispatch(addItem(item));
+    // alert("hello");
+  };
 
   return (
     <>
@@ -135,13 +158,22 @@ function Home() {
                       </span>
                     </div>
                     <h2 className="text-lg font-semibold"> ${items.price}</h2>
-                    <button
-                      className="w-full bg-green-600 py-3 mt-2 rounded-md font-semibold text-white text-lg"
-                      type="button"
-                      onClick={()=> viewDetailFunction(items)}
-                    >
-                      View Detail
-                    </button>
+                    <div className="flex gap-3">
+                      <button
+                        className="py-3 px-5 mt-2 rounded-md font-semibold border border-green-500 text-lg hover:bg-green-600 hover:text-white translate duration-300"
+                        type="button"
+                        onClick={() => viewDetailFunction(items)}
+                      >
+                        View Detail
+                      </button>
+                      <button
+                        className="bg-green-600 py-3 px-5 mt-2 rounded-md font-semibold text-white text-lg"
+                        type="button"
+                        onClick={() => addToCartFunction(items)}
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -149,7 +181,7 @@ function Home() {
           </div>
         </div>
       )}
-      {showHide === false &&(
+      {showHide === false && (
         <AddCart cartItem={cartItem} setShowHide={setShowHide} />
       )}
     </>

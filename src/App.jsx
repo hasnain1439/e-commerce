@@ -6,6 +6,10 @@ import Contact from './pages/Contact'
 import Login from './pages/Login'
 import Dynamic from './pages/dynamic'
 import HookHandler from './pages/HookHandler'
+import CartPage from './pages/AddCart/CartPage'
+import { Provider } from 'react-redux'
+import { store } from './redux/store'
+
 
 function App() {
   const router = createBrowserRouter([
@@ -33,12 +37,18 @@ function App() {
       path: "/hook-handler",
       element: <HookHandler/>
     },
+    {
+      path: "/cart",
+      element: <CartPage/>
+    },
   ])
 
 
   return (
     <>
+    <Provider store={store}>
       <RouterProvider router={router}/>
+    </Provider>
     </>
   )
 }

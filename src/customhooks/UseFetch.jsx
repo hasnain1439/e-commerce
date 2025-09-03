@@ -28,7 +28,6 @@ export function UseFetch({
         method.toLowerCase() === "post"?
         [...prev, res.data]:  
         res.data);
-      console.log("this is api data", res.data)
       enqueueSnackbar("✅ Request successful", { variant: "success" });
     } catch (err) {
       setApiErr(err);
